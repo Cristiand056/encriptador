@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<script>
+    function encriptar(){
+        let textoEntrada = document.getElementById("texto-input").value
+        let textoArray = [...textoEntrada]
+        let newArray = ""
+
+        for(let i=0; i < textoArray.length; i++){
+
+            if(textoArray[i] == "e" || textoArray[i] == "i" || textoArray[i] == "a" || textoArray[i] == "o" || textoArray[i] == "u"){
+                if(textoArray[i] == "e"){
+                    newArray = newArray + "enter"
+                }
+                if(textoArray[i] == "i"){
+                    newArray = newArray + "imes"
+                }
+                if(textoArray[i] == "a"){
+                    newArray = newArray + "ai"
+                }
+                if(textoArray[i] == "o"){
+                    newArray = newArray + "ober"
+                }
+                if(textoArray[i] == "u"){
+                    newArray = newArray + "ufat"
+                }    
+            }          
+            else{
+                newArray = newArray + textoArray[i].toString()
+            }
+
+        }
+
+        console.log(newArray)
+        document.getElementById("imagen-munheco").style.display = "none"
+        document.getElementById("output-desc").style.display = "none"
+
+        document.getElementById("derecha").style.alignItems = "flex-start"
+        document.getElementById("copiar").style.display = "flex"
+        
+        const salida = document.getElementById("texto-output")
+        salida.style.height = "660px"
+        salida.value = ""    
+        salida.value = newArray   
+    }
+
+    function desencriptar(){
+        let textoEntrada = document.getElementById("texto-input").value
+        let textoArray = textoEntrada.split("")
+        console.log(textoArray)
+        let newArray = ""
+        let comparacion = ""
+        let exito = false
+        
+        for(let i=0; i <textoArray.length; i++){
+            
+            if(textoArray[i] == "e" || textoArray[i] == "i" || textoArray[i] == "a" || textoArray[i] == "o" || textoArray[i] == "u"){
+                for(let j=i; j < 6; j++){
+                    if(comparacion == "enter" || comparacion == "imes" || comparacion == "ai" || comparacion == "ober" || comparacion == "ufat"){
+                        exito = true
+                        console.log("comparacion: "+comparacion)
+                        console.log("exito: "+exito)
+                        comparacion = ""
+                        break;
+                    }
+                    else{
+                        comparacion = comparacion + textoArray[j]
+                        console.log("comparacion parcial: "+comparacion)
+                        console.log("concateno comp"+ comparacion+" "+j)
+                    }
+                }
+
+                if(exito){
+                    console.log("como va en el texto "+newArray)
+                    switch(textoArray[i]){
+                        case "e":
+                            console.log("entre e")
+                            newArray = newArray + "e"
+                            console.log("como va en e "+newArray)
+
+                            for(let y=i; y <i+4; y++){
+                                textoArray.splice(y, 1);
+                            }
+                            
+                           
+                            console.log("esta mierda no cambia: "+textoArray)
+                            break;
+
+                        case "i":
+                            newArray = newArray + "i"
+                            console.log(newArray)
+                            textoArray.splice(i, i+3)
+                            break;
+                        
+                        case "a":
+                            console.log("entre a")
+                            newArray = newArray + "a"
+                            textoArray.splice(i, i+1)
+                            break;
+                        
+                        case "o":
+                            console.log("entre o")
+                            newArray = newArray + "o"
+                            console.log(newArray)
+                            textoArray.slice(i+1, i+4)                         
+                            break;
+                        case "u":
+                            newArray = newArray + "u"
+                            console.log(newArray)
+                            textoArray.splice(i, i+3)
+                            
+                            break;
+                    }
+                }
+                else{
+                    
+                    newArray = newArray + textoArray[i]
+                    console.log("resultado sin cla dsdfdsf: "+ newArray) 
+                    
+                }       
+                console.log("aaaaa")        
+            }  
+            else{
+                newArray = newArray + textoArray[i]
+                console.log("resultado sin cla: "+ newArray) 
+            } 
+                   
+        }
+        
+
+        document.getElementById("imagen-munheco").style.display = "none"
+        document.getElementById("output-desc").style.display = "none"
+
+        document.getElementById("derecha").style.alignItems = "flex-start"
+
+        document.getElementById("copiar").style.display = "flex"
+        
+        let salida = document.getElementById("texto-output")
+        salida.style.height = "660px"
+        salida.value = ""    
+        console.log("esta mierda que:" +newArray)
+        salida.value = newArray
+    }
+
+    function copiarTexto(){
+
+        const textoCopiar = document.getElementById('texto-output');
+        const btnCopiar = document.getElementById('copiar');
+
+        btnCopiar.addEventListener("click", ()=>{
+            textoCopiar.select();
+            document.execCommand("copy")
+            
+        })
+
+        alert("Texto Copiado")
+    
+    }
+
+</script>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width">
+        <title>Encriptador Alura</title>
+        <link rel="stylesheet" href="reset.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>      
+        <main>
+            <img class="logo" src="imagenes/Logo.png" alt="Logo Alura">
+            <div class="contenedor">
+                <div class="contenedor-salida">
+                    <textarea cols="70" rows="10" class="input" id="texto-input" placeholder="Ingrese su texto aquí"></textarea>
+                    <h3><img class="advertencia-logo" src="imagenes/advertencia.png">solo letras minusculas y sin acentos</h3>
+                    <ul class="lista-botones">
+                        <li class="li-boton"><button class="encrip" onclick=encriptar()>Encriptar</button></li>
+                        <li class="li-boton"><button class="desencrip" onclick=desencriptar()>Desencriptar</button></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="seccion-derecha" id="derecha">
+                <ul>
+                    <li>
+                        <img class="imagen-muñeco" src="imagenes/Muñeco.png" id="imagen-munheco">
+                    </li>
+                    <li>
+                        <textarea class="output" id="texto-output" placeholder="Ningún mensaje fue encontrado" readonly></textarea>
+                    </li>
+                    <li>
+                        <h3 class="output-desc" id="output-desc">Ingresa el texto que desees encriptar o desencriptar.</h3>
+                    </li>
+                    <li>
+                        <button class="copiar_boton" id="copiar" onclick=copiarTexto()>Copiar</button>
+                    </li>
+                </ul>
+                            
+            </div>
+                                  
+        </main>
+    </body>
+    
+</html>
